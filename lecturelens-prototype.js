@@ -68,7 +68,7 @@ function render() {
   app.innerHTML = `
     <section class="card">
       <header class="topbar">
-        <div><span class="brand">🎓 Lecture Lens</span> — polished simple prototype</div>
+        <div><span class="brand">🎓 Lecture Lens</span> — Polished simple prototype</div>
         <div class="status-chip">${state.running ? "🟢 LIVE" : "🟡 STANDBY"} • ${formatHMS(state.seconds)} • ${state.visibleConcepts.length} concepts</div>
       </header>
       <div class="grid">
