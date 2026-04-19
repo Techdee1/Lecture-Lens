@@ -26,7 +26,9 @@
       .top-nav{position:sticky;top:0;z-index:70;backdrop-filter:blur(12px);background:rgba(9,13,20,.72);border-bottom:1px solid rgba(148,163,184,.14)}
       .top-nav .container{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
       .brand{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.02em}.brand span{color:var(--primary-soft)}
-      .nav-links{display:flex;align-items:center;gap:16px;color:var(--muted);font-size:.92rem}.nav-links a{padding:8px 10px;border-radius:8px;transition:.25s ease}.nav-links a:hover{color:var(--text);background:rgba(110,231,183,.08)}
+      .nav-links{display:flex;align-items:center;color:var(--muted);font-size:.92rem}
+      .nav-links ul{display:flex;align-items:center;gap:16px;list-style:none;margin:0;padding:0}
+      .nav-links a{padding:8px 10px;border-radius:8px;transition:.25s ease}.nav-links a:hover{color:var(--text);background:rgba(110,231,183,.08)}
       .btn{border:1px solid transparent;border-radius:10px;padding:12px 16px;font-weight:600;cursor:pointer;transition:.25s ease}
       .btn-primary{background:linear-gradient(130deg,var(--primary),#10b981);color:#ecfffa;box-shadow:0 14px 30px rgba(5,150,105,.32)}
       .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 36px rgba(5,150,105,.42)}
@@ -88,6 +90,7 @@
       @media (max-width:1080px){.features-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:1fr}.step-card::after{display:none}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.tech-node::after{display:none!important}}
       @media (max-width:920px){.hero-grid,.problem-grid,.demo-grid{grid-template-columns:1fr}.demo-panel+.demo-panel{border-left:none;border-top:1px solid var(--line)}.tooltip{position:static;width:100%;margin-top:10px}.tooltip::before{display:none}.mobile-note{display:block}}
       @media (max-width:720px){.top-nav .container{flex-direction:column;align-items:flex-start;padding:10px 0}.nav-links{flex-wrap:wrap}section{padding:58px 0}.features-grid{grid-template-columns:1fr}}
+      @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.reveal{transition:none}.wire-line,.waveform i,.hero-orb,.map-edge.active{animation:none!important}}
       @keyframes float {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-18px); }
@@ -114,7 +117,7 @@
     </style>
   </head>
   <body>
-    <header class="top-nav"><div class="container"><div class="brand">Lecture<span>Lens</span></div><nav class="nav-links"><a href="#problem">Problem</a><a href="#how-it-works">How It Works</a><a href="#features">Features</a><a href="#demo">Demo</a><a href="#architecture">Architecture</a></nav></div></header>
+    <header class="top-nav"><div class="container"><div class="brand">Lecture<span>Lens</span></div><nav class="nav-links" aria-label="Primary"><ul><li><a href="#problem">Problem</a></li><li><a href="#how-it-works">How It Works</a></li><li><a href="#features">Features</a></li><li><a href="#demo">Demo</a></li><li><a href="#architecture">Architecture</a></li></ul></nav></div></header>
     <main>
       <section id="home" class="hero"><div class="ambient-grid"></div><div class="hero-orb"></div><div class="container hero-grid"><div class="reveal"><p class="eyebrow">AI Lecture Comprehension Companion</p><h1>Understand Lectures in Real Time</h1><p>LectureLens listens while your lecturer speaks and instantly generates visual aids, concept maps, formulas, and explanations so you can understand in the moment, not hours later.</p><div class="hero-actions"><a class="btn btn-primary" href="#demo">Try the Demo</a><a class="btn btn-secondary" href="#how-it-works">How It Works</a></div></div><div class="hero-wireframe reveal" aria-hidden="true"><div class="wire-head"><span>LectureLens Live View</span><div class="dots"><i></i><i></i><i></i></div></div><div class="wire-body"><div class="wire-col"><div class="wire-line"></div><div class="wire-line"></div><div class="wire-line"></div><div class="wire-line"></div><div class="wire-line"></div></div><div class="wire-col"><div class="wire-card"><strong>Depletion Region</strong><small>Auto-generated relationship diagram</small></div><div class="wire-card"><strong>Built-in Potential</strong><small>Instant formula + energy band visual</small></div><div class="wire-card"><strong>Forward Bias</strong><small>Comparison table generated live</small></div></div></div></div></div></section>
       <section id="problem"><div class="container"><div class="section-title-wrap reveal"><p class="eyebrow">The Problem</p><h2>Lecture comprehension breaks when visuals are missing</h2></div><div class="problem-grid"><article class="problem-card reveal"><div class="icon">🎓</div><strong>10+ million African university students</strong><p>sit in lectures where visual aids are scarce, boards get erased, and slides fly by.</p></article><article class="problem-card reveal"><div class="icon">📱</div><strong>Attention gets split instantly</strong><p>Students Google concepts on their phones mid-lecture — and miss the next 3 concepts.</p></article><article class="problem-card reveal"><div class="icon">⚠️</div><strong>Current tools stop at transcription</strong><p>Existing tools (Otter.ai, NotebookLM) transcribe lectures. None of them help you understand while the lecturer is still explaining.</p></article></div></div></section>
@@ -167,7 +170,12 @@
       const waveform = document.getElementById('waveform');
       const startDemoBtn = document.getElementById('startDemoBtn');
 
-      const formatDuration = (sec) => `${String(Math.floor(sec / 3600)).padStart(2, '0')}:${String(Math.floor((sec % 3600) / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
+      const formatDuration = (sec) => {
+        const hours = String(Math.floor(sec / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+        const seconds = String(sec % 60).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+      };
       const activateTab = (tab) => { state.activeTab = tab; document.querySelectorAll('.tab-btn').forEach((btn) => btn.classList.toggle('active', btn.dataset.tab === tab)); document.querySelectorAll('.tab-pane').forEach((pane) => pane.classList.toggle('active', pane.dataset.pane === tab)); };
       const updateStatus = () => { liveStatus.textContent = state.running ? '🟢 LIVE' : state.demoStarted ? '🔵 COMPLETE' : '🟡 STANDBY'; elapsedStatus.textContent = `Elapsed ${formatDuration(state.elapsed)}`; conceptStatus.textContent = `${state.concepts.length} concepts`; waveform.classList.toggle('active', state.running); };
 
@@ -221,7 +229,18 @@
 
       function startDemo() {
         if (state.running) { stopDemo(false); return; }
-        clearPendingTimeouts(); Object.assign(state, { running: true, demoStarted: true, elapsed: 0, shownTranscriptCount: 0, activeLine: -1, concepts: [], shownConceptIds: new Set(), mapNodes: new Set(['pn']), mapEdges: new Set() });
+        clearPendingTimeouts();
+        Object.assign(state, {
+          running: true,
+          demoStarted: true,
+          elapsed: 0,
+          shownTranscriptCount: 0,
+          activeLine: -1,
+          concepts: [],
+          shownConceptIds: new Set(),
+          mapNodes: new Set(['pn']),
+          mapEdges: new Set()
+        });
         instructionPanel.style.display = 'none'; demoBoard.classList.add('active'); startDemoBtn.textContent = 'Stop Demo'; startDemoBtn.classList.remove('btn-primary'); startDemoBtn.classList.add('btn-secondary');
         renderAll();
         state.timerId = setInterval(() => {
@@ -234,8 +253,12 @@
       }
 
       document.querySelectorAll('.tab-btn').forEach((btn) => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
-      const io = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } }), { threshold: .12 });
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } }), { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+      }
       startDemoBtn.addEventListener('click', startDemo);
       renderAll();
     </script>
