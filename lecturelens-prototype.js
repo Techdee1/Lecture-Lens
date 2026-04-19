@@ -29,6 +29,8 @@ const CONCEPTS = [
   }
 ];
 
+const CONCEPT_REVEAL_INTERVAL_SECONDS = 6;
+
 const state = {
   running: false,
   currentLine: -1,
@@ -117,7 +119,10 @@ function startDemo() {
       transcriptIndex += 1;
     }
 
-    if (conceptIndex < CONCEPTS.length && state.seconds >= (conceptIndex + 1) * 6) {
+    if (
+      conceptIndex < CONCEPTS.length &&
+      state.seconds >= (conceptIndex + 1) * CONCEPT_REVEAL_INTERVAL_SECONDS
+    ) {
       state.visibleConcepts = [CONCEPTS[conceptIndex], ...state.visibleConcepts];
       conceptIndex += 1;
     }
