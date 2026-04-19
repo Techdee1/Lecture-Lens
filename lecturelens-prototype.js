@@ -32,6 +32,7 @@ const CONCEPTS = [
 const CONCEPT_REVEAL_INTERVAL_SECONDS = 6;
 const TICK_INTERVAL_SECONDS = 2;
 const TICK_INTERVAL_MS = TICK_INTERVAL_SECONDS * 1000;
+const CONCEPT_COLOR_VARIANTS = 4;
 
 const state = {
   running: false,
@@ -58,7 +59,7 @@ function render() {
 
   const conceptsHtml = state.visibleConcepts.length
     ? state.visibleConcepts.map((c, i) => `
-      <article class="concept concept--${(i % 4) + 1}">
+      <article class="concept concept--${(i % CONCEPT_COLOR_VARIANTS) + 1}">
         <h4><span class="concept-badge">💡</span>${c.concept} <small class="timestamp">(${c.timestamp})</small></h4>
         <p>${c.explanation}</p>
       </article>
