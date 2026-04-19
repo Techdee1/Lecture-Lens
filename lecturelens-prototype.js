@@ -59,11 +59,11 @@ function render() {
   const conceptsHtml = state.visibleConcepts.length
     ? state.visibleConcepts.map((c, i) => `
       <article class="concept concept--${(i % 4) + 1}">
-        <h4><span class="concept-badge">💡</span>${c.concept} <small style="color:#9fb0d6;font-weight:500">(${c.timestamp})</small></h4>
+        <h4><span class="concept-badge">💡</span>${c.concept} <small class="timestamp">(${c.timestamp})</small></h4>
         <p>${c.explanation}</p>
       </article>
     `).join("")
-    : `<div style="color:#8ea1c7;padding:12px;border:1px dashed #355078;border-radius:10px;background:rgba(15,23,42,.35)">🎧 Listening for concepts…</div>`;
+    : `<div class="empty-state">🎧 Listening for concepts…</div>`;
 
   app.innerHTML = `
     <section class="card">
