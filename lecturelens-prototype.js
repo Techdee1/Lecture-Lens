@@ -32,6 +32,7 @@ const CONCEPTS = [
 const CONCEPT_REVEAL_INTERVAL_SECONDS = 6;
 const TICK_INTERVAL_SECONDS = 2;
 const TICK_INTERVAL_MS = TICK_INTERVAL_SECONDS * 1000;
+const CONCEPT_COLOR_VARIANTS = 4;
 
 const state = {
   running: false,
@@ -57,33 +58,33 @@ function render() {
   `).join("");
 
   const conceptsHtml = state.visibleConcepts.length
-    ? state.visibleConcepts.map(c => `
-      <article class="concept">
-        <h4>${c.concept} <small style="color:#6b7280;font-weight:500">(${c.timestamp})</small></h4>
+    ? state.visibleConcepts.map((c, i) => `
+      <article class="concept concept--${(i % CONCEPT_COLOR_VARIANTS) + 1}">
+        <h4><span class="concept-badge">💡</span>${c.concept} <small class="timestamp">(${c.timestamp})</small></h4>
         <p>${c.explanation}</p>
       </article>
     `).join("")
-    : `<div style="color:#4b5563;padding:12px;border:1px dashed #1f2937;border-radius:10px">Listening for concepts…</div>`;
+    : `<div class="empty-state">🎧 Listening for concepts…</div>`;
 
   app.innerHTML = `
     <section class="card">
       <header class="topbar">
-        <div><span class="brand">🎓 Lecture Lens</span> — Simple deployable frontend prototype</div>
-        <div>${state.running ? "LIVE" : "STANDBY"} • ${formatHMS(state.seconds)} • ${state.visibleConcepts.length} concepts</div>
+        <div><span class="brand">🎓 Lecture Lens</span> — Polished simple prototype</div>
+        <div class="status-chip">${state.running ? "🟢 LIVE" : "🟡 STANDBY"} • ${formatHMS(state.seconds)} • ${state.visibleConcepts.length} concepts</div>
       </header>
       <div class="grid">
         <div class="panel">
-          <h3 class="subtitle">Live Transcript</h3>
+          <h3 class="section-title"><span class="section-icon">📝</span>Live Transcript</h3>
           <div class="transcript">${transcriptHtml}</div>
         </div>
         <div class="panel">
-          <h3 class="subtitle">Detected Concepts</h3>
+          <h3 class="section-title"><span class="section-icon">✨</span>Detected Concepts</h3>
           <div class="concepts">${conceptsHtml}</div>
         </div>
       </div>
       <footer class="actions">
-        <button id="startBtn" class="primary">Start Demo</button>
-        <button id="stopBtn" class="danger">Stop</button>
+        <button id="startBtn" class="primary">▶️ Start Demo</button>
+        <button id="stopBtn" class="danger">⏹ Stop</button>
       </footer>
     </section>
   `;

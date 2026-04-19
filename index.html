@@ -7,19 +7,23 @@
     <meta name="description" content="Deployable frontend prototype for Lecture Lens" />
     <style>
       :root {
-        --bg: #090d14;
-        --panel: #111827;
-        --panel-2: #0d1117;
-        --line: #1f2937;
-        --text: #e5e7eb;
-        --muted: #9ca3af;
-        --accent: #6ee7b7;
+        --bg: #080d1d;
+        --bg-2: #121a34;
+        --panel: rgba(10, 16, 33, 0.86);
+        --panel-2: rgba(8, 13, 27, 0.92);
+        --line: rgba(148, 163, 184, 0.2);
+        --text: #e8eefc;
+        --muted: #9fb0d6;
+        --accent: #65e3c8;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-        background: var(--bg);
+        background:
+          radial-gradient(900px 500px at 12% -15%, rgba(99, 102, 241, 0.25), transparent 70%),
+          radial-gradient(700px 420px at 90% 0%, rgba(20, 184, 166, 0.2), transparent 72%),
+          linear-gradient(160deg, var(--bg), var(--bg-2));
         color: var(--text);
       }
       .app { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
@@ -27,20 +31,30 @@
         width: min(980px, 100%);
         background: var(--panel);
         border: 1px solid var(--line);
-        border-radius: 14px;
+        border-radius: 18px;
         overflow: hidden;
+        box-shadow: 0 22px 55px rgba(1, 7, 19, 0.55);
+        backdrop-filter: blur(8px);
       }
       .topbar {
         background: var(--panel-2);
         border-bottom: 1px solid var(--line);
-        padding: 12px 16px;
+        padding: 13px 16px;
         display: flex;
         justify-content: space-between;
         gap: 12px;
         font-size: 13px;
         color: var(--muted);
+        align-items: center;
       }
       .brand { font-weight: 700; color: var(--text); }
+      .status-chip {
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: rgba(15, 23, 42, 0.55);
+        color: #cfe0ff;
+      }
       .grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -49,24 +63,40 @@
       }
       .panel { padding: 16px; }
       .panel + .panel { border-left: 1px solid var(--line); }
-      .subtitle {
+      .section-title {
         margin: 0 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
         color: var(--muted);
         font-size: 12px;
         text-transform: uppercase;
         letter-spacing: .08em;
       }
+      .section-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+        display: inline-grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(45, 212, 191, 0.25));
+        color: #d8e1ff;
+        font-size: 13px;
+      }
       .transcript {
-        background: #0f172a;
+        background: rgba(15, 23, 42, 0.72);
         border: 1px solid var(--line);
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 10px;
         height: 460px;
         overflow-y: auto;
       }
       .line { padding: 8px; border-radius: 8px; margin-bottom: 6px; color: var(--muted); }
-      .line.active { background: rgba(110, 231, 183, 0.08); color: var(--text); }
-      .time { color: #6b7280; margin-right: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .line.active {
+        background: linear-gradient(90deg, rgba(20, 184, 166, 0.16), rgba(99, 102, 241, 0.17));
+        color: var(--text);
+      }
+      .time { color: #7f8fb0; margin-right: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
       .concepts {
         display: grid;
         gap: 10px;
@@ -76,12 +106,33 @@
       }
       .concept {
         border: 1px solid var(--line);
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 12px;
-        background: #0f172a;
+        background: linear-gradient(140deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.78));
       }
-      .concept h4 { margin: 0 0 6px; color: var(--accent); }
-      .concept p { margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.5; }
+      .concept--1 { border-color: rgba(52, 211, 153, 0.45); background: linear-gradient(145deg, rgba(6, 95, 70, 0.34), rgba(15, 23, 42, 0.82)); }
+      .concept--2 { border-color: rgba(59, 130, 246, 0.42); background: linear-gradient(145deg, rgba(30, 58, 138, 0.32), rgba(15, 23, 42, 0.82)); }
+      .concept--3 { border-color: rgba(236, 72, 153, 0.38); background: linear-gradient(145deg, rgba(131, 24, 67, 0.3), rgba(15, 23, 42, 0.82)); }
+      .concept--4 { border-color: rgba(250, 204, 21, 0.38); background: linear-gradient(145deg, rgba(113, 63, 18, 0.33), rgba(15, 23, 42, 0.82)); }
+      .concept h4 { margin: 0 0 6px; color: #eff6ff; display: flex; align-items: center; gap: 8px; }
+      .timestamp { color: #9fb0d6; font-weight: 500; }
+      .concept p { margin: 0; color: #d8dded; font-size: 14px; line-height: 1.5; }
+      .concept-badge {
+        font-size: 12px;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        display: inline-grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.14);
+      }
+      .empty-state {
+        color: #8ea1c7;
+        padding: 12px;
+        border: 1px dashed #355078;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, .35);
+      }
       .actions {
         padding: 12px 16px;
         border-top: 1px solid var(--line);
@@ -92,13 +143,13 @@
       }
       button {
         border: 0;
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 10px 14px;
         font-weight: 600;
         cursor: pointer;
       }
-      .primary { background: linear-gradient(135deg, #065f46, #059669); color: #ecfdf5; }
-      .danger { background: #7f1d1d; color: #fecaca; }
+      .primary { background: linear-gradient(135deg, #0ea5e9, #14b8a6); color: #ecfeff; box-shadow: 0 8px 24px rgba(20, 184, 166, 0.25); }
+      .danger { background: linear-gradient(135deg, #7f1d1d, #be123c); color: #ffe4e6; }
       @media (max-width: 860px) {
         .grid { grid-template-columns: 1fr; }
         .panel + .panel { border-left: 0; border-top: 1px solid var(--line); }
