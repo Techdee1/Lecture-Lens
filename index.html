@@ -7,7 +7,19 @@
     <meta name="description" content="LectureLens is an AI-powered lecture companion that generates visual aids in real time while lectures happen." />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-      :root { --bg:#090d14; --bg-2:#0a0f1a; --panel:rgba(15,23,42,.72); --line:rgba(148,163,184,.24); --line-strong:rgba(110,231,183,.55); --text:#ecf2ff; --muted:#9caecc; --primary:#059669; --primary-soft:#6ee7b7; --blue:#3b82f6; --shadow:0 24px 80px rgba(2,8,22,.5); }
+      :root {
+        --bg: #090d14;
+        --bg-2: #0a0f1a;
+        --panel: rgba(15, 23, 42, 0.72);
+        --line: rgba(148, 163, 184, 0.24);
+        --line-strong: rgba(110, 231, 183, 0.55);
+        --text: #ecf2ff;
+        --muted: #9caecc;
+        --primary: #059669;
+        --primary-soft: #6ee7b7;
+        --blue: #3b82f6;
+        --shadow: 0 24px 80px rgba(2, 8, 22, 0.5);
+      }
       *{box-sizing:border-box} html{scroll-behavior:smooth}
       body{margin:0;color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;background:radial-gradient(900px 420px at 8% -10%,rgba(59,130,246,.2),transparent 68%),radial-gradient(780px 420px at 92% -10%,rgba(5,150,105,.22),transparent 68%),linear-gradient(180deg,var(--bg),var(--bg-2));}
       a{color:inherit;text-decoration:none}.container{width:min(1180px,92vw);margin:0 auto}
@@ -76,7 +88,29 @@
       @media (max-width:1080px){.features-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:1fr}.step-card::after{display:none}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.tech-node::after{display:none!important}}
       @media (max-width:920px){.hero-grid,.problem-grid,.demo-grid{grid-template-columns:1fr}.demo-panel+.demo-panel{border-left:none;border-top:1px solid var(--line)}.tooltip{position:static;width:100%;margin-top:10px}.tooltip::before{display:none}.mobile-note{display:block}}
       @media (max-width:720px){.top-nav .container{flex-direction:column;align-items:flex-start;padding:10px 0}.nav-links{flex-wrap:wrap}section{padding:58px 0}.features-grid{grid-template-columns:1fr}}
-      @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}@keyframes pulse{0%,100%{opacity:.45}50%{opacity:.95}}@keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes wave{0%,100%{transform:scaleY(.4);opacity:.55}50%{transform:scaleY(1);opacity:1}}@keyframes dash{to{stroke-dashoffset:-28}}
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-18px); }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.45; }
+        50% { opacity: 0.95; }
+      }
+      @keyframes shimmer {
+        from { background-position: -200% 0; }
+        to { background-position: 200% 0; }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes wave {
+        0%, 100% { transform: scaleY(0.4); opacity: 0.55; }
+        50% { transform: scaleY(1); opacity: 1; }
+      }
+      @keyframes dash {
+        to { stroke-dashoffset: -28; }
+      }
     </style>
   </head>
   <body>
