@@ -30,6 +30,8 @@ const CONCEPTS = [
 ];
 
 const CONCEPT_REVEAL_INTERVAL_SECONDS = 6;
+const TICK_INTERVAL_SECONDS = 2;
+const TICK_INTERVAL_MS = TICK_INTERVAL_SECONDS * 1000;
 
 const state = {
   running: false,
@@ -112,7 +114,7 @@ function startDemo() {
   state.timerId = setInterval(() => {
     if (!state.running) return;
 
-    state.seconds += 2;
+    state.seconds += TICK_INTERVAL_SECONDS;
 
     if (transcriptIndex < TRANSCRIPT.length) {
       state.currentLine = transcriptIndex;
@@ -133,7 +135,7 @@ function startDemo() {
     }
 
     render();
-  }, 2000);
+  }, TICK_INTERVAL_MS);
 
   render();
 }
